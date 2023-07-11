@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CarSalePage</title>
+    <title>CarSalesPage</title>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.1/dist/cdn.min.js"></script>
@@ -29,7 +29,7 @@
       <!-- THIS IS NAVBAR-->
       <nav class="flex items-center justify-between py-4 bg-blue-500">
         <div class="pl-4">
-          <a href="{{ route('cars.index') }}" class="text-white font-bold text-xl">CarSale</a>
+          <a href="{{ route('cars.index') }}" class="text-white font-bold text-xl">CarSales</a>
         </div>
         <div class="lg:hidden">
           <button class="text-white pr-4 hover:text-gray-300 focus:outline-none" id="toggleButton">
