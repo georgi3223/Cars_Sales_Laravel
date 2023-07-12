@@ -1,4 +1,7 @@
-@extends('layouts.app') @section('content') <div class="container mx-auto mt-10">
+@extends('layouts.app')
+
+@section('content')
+<div class="container mx-auto mt-10">
   <div class="bg-white p-8 rounded-lg">
     <h1 class="text-3xl mb-4">{{ $car->make }} {{ $car->model }}</h1>
     <!-- Display car details -->
@@ -12,11 +15,9 @@
       <p>
         <strong>Mileage:</strong> {{ $car->mileage }}
       </p>
-     
       <p>
         <strong>Fuel Type:</strong> {{ $car->fueltype }}
       </p>
-    
       <p>
         <strong>Engine:</strong> {{ $car->engine }}
       </p>
@@ -34,7 +35,6 @@
       </p>
       <p>
         <strong>Drive Type:</strong> {{ $car->drivetype }}
-        
       </p>
       <p>
         <strong>Description:</strong> {{ $car->description }}
@@ -55,7 +55,7 @@
         </button>
       </div>
     </div>
-    <div id="carouselImages" class="hidden">
+    <div id="carouselImages" class="hidden grid grid-cols-3 gap-4">
       <!-- Other Image URLs -->
       <img src="{{ asset('storage/images/' . basename($car->image2)) }}" class="carousel-image object-cover">
       <img src="{{ asset('storage/images/' . basename($car->image3)) }}" class="carousel-image object-cover">
@@ -63,4 +63,11 @@
     </div>
   </div>
 </div>
-<div> @auth @if (Auth::user()->can('update', $car)) <a href="{{ route('cars.edit', $car->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">Edit Car</a> @endif @endauth </div> @endsection
+<div>
+  @auth
+  @if (Auth::user()->can('update', $car))
+  <a href="{{ route('cars.edit', $car->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">Edit Car</a>
+  @endif
+  @endauth
+</div>
+@endsection

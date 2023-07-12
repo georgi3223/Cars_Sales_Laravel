@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\Car;
 use Illuminate\Http\Request;
 
-
 class SortController extends Controller
 {
     public function sortCars(Request $request)
     {
         $sortBy = $request->input('sort');
-    
+
         $query = Car::query();
-    
+
         switch ($sortBy) {
             case 'price_low_to_high':
                 $query->orderBy('price', 'asc');
@@ -35,9 +34,9 @@ class SortController extends Controller
                 $query->orderBy('relevance_column', 'desc');
                 break;
         }
-    
-        $sortedCars = $query->get();
 
-        return view('cars.index', compact('sortedCars'));
+        $cars = $query->get();
+
+        return view('cars.index', compact('cars'));
     }
 }

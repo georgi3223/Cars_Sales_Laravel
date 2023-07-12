@@ -33,7 +33,7 @@ Route::get("/search", function () {
 })->name("search");
 
 /* Sorting Cars */
-Route::get('/cars/sort', [CarsController::class, 'sortCars'])->name('cars.sort');
+Route::get('/cars/sort', [SortController::class, 'sortCars'])->name('cars.sort');
 
 /* Search Form Index Route */
 Route::get("/search", [SearchController::class, "index"])->name("search.form");

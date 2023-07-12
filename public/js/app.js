@@ -42,35 +42,36 @@ $(document).ready(function() {
 
 
 //IMAGES SLIDER 
-$(document).ready(function() {
-    const images = $('#carouselImages img');
-    let currentIndex = 0;
-    const currentImage = $('#currentImage');
-    const prevBtn = $('#prevBtn');
-    const nextBtn = $('#nextBtn');
-  
-    // Display the initial image
-    currentImage.attr('src', images.eq(currentIndex).attr('src'));
-  
-    prevBtn.on('click', showPreviousImage);
-    nextBtn.on('click', showNextImage);
-  
-    function showPreviousImage() {
-      currentIndex--;
-      if (currentIndex < 0) {
-        currentIndex = images.length - 1;
-      }
-      currentImage.attr('src', images.eq(currentIndex).attr('src'));
+$(document).ready(function () {
+  const mainImage = $('#currentImage');
+  const carouselImages = $('.carousel-image');
+  const prevBtn = $('#prevBtn');
+  const nextBtn = $('#nextBtn');
+  let currentImageIndex = 0;
+
+  // Show the current image
+  function showImage(index) {
+    mainImage.attr('src', $(carouselImages[index]).attr('src'));
+  }
+
+  // Event listener for previous button
+  prevBtn.on('click', function () {
+    currentImageIndex--;
+    if (currentImageIndex < 0) {
+      currentImageIndex = carouselImages.length - 1;
     }
-  
-    function showNextImage() {
-      currentIndex++;
-      if (currentIndex >= images.length) {
-        currentIndex = 0;
-      }
-      currentImage.attr('src', images.eq(currentIndex).attr('src'));
-    }
+    showImage(currentImageIndex);
   });
+
+  // Event listener for next button
+  nextBtn.on('click', function () {
+    currentImageIndex++;
+    if (currentImageIndex >= carouselImages.length) {
+      currentImageIndex = 0;
+    }
+    showImage(currentImageIndex);
+  });
+});
 
 
   
