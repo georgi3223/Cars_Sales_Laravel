@@ -7,13 +7,11 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    
+    public function show()
+    {
+        $user = auth()->user();
+        $cars = $user->cars;
 
-public function show()
-{
-    $user = auth()->user();
-    $cars = $user->cars;
-
-    return view('layouts.profile', compact('cars'));
-}
+        return view("layouts.profile", compact("cars"));
+    }
 }

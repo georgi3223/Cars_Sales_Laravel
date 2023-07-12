@@ -7,39 +7,37 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 class CarsController extends Controller
-
-
-
 {
-  
-
-  public function __construct(){
-    $this->middleware('auth')->except(['index','show']);
-  }
+    public function __construct()
+    {
+        $this->middleware("auth")->except(["index", "show"]);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     * 
      *
-       */
+     *
+     */
 
-       
     public function index()
     {
-        if(request()->has('type')){
-          $cars = Car::where('type', request('type'))->paginate(8)->appends('type', request('type'));
-        }else if(request()->has('search')){
-          $search = request()->get('search');
-          $cars = Car::where('make', 'like', '%'.$search.'%')->
-          orWhere('model', 'like', '%'.$search.'%')->
-          orWhere('year', 'like', '%'.$search.'%')->orWhere('type', 'like', '%'.$search.'%')->paginate(8);
-        }else{
-          $cars = Car::paginate(8);
+        if (request()->has("type")) {
+            $cars = Car::where("type", request("type"))
+                ->paginate(8)
+                ->appends("type", request("type"));
+        } elseif (request()->has("search")) {
+            $search = request()->get("search");
+            $cars = Car::where("make", "like", "%" . $search . "%")
+                ->orWhere("model", "like", "%" . $search . "%")
+                ->orWhere("year", "like", "%" . $search . "%")
+                ->orWhere("type", "like", "%" . $search . "%")
+                ->paginate(8);
+        } else {
+            $cars = Car::paginate(8);
         }
-     
- 
-        return view('cars.index', compact('cars'));
+
+        return view("cars.index", compact("cars"));
     }
 
     /**
@@ -49,7 +47,7 @@ class CarsController extends Controller
      */
     public function create()
     {
-        return view('cars.create');
+        return view("cars.create");
     }
 
     /**
@@ -59,73 +57,83 @@ class CarsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     
-          // THIS IS STORE METHOD
-          public function store(Request $request)
-          {
-              // Validate the form data
-              $validatedData = $request->validate([
-                  'make' => 'required',
-                  'model' => 'required',
-                  'year' => 'required|numeric',
-                  'mileage' => 'required|numeric',
-                  'description' => 'required',
-                  'fueltype' => 'required',
-                  'drivetype' => 'required',
-                  'engine' => 'required',
-                  'price' => 'required|numeric',
-                  'type' => 'required',
-                  'transmission' => 'required',
-                  'doors' => 'required|numeric',
-                  'image1' => 'required|image',
-                  'image2' => 'required|image',
-                  'image3' => 'required|image',
-                  'image4' => 'required|image',
-                  'features' => 'nullable|array',
-                  'features.*' => 'nullable|in:air-conditioning,power-windows,power-locks,keyless-entry,backup-camera,navigation-system,sunroof,heated-seats,ventilated-seats,leather-seats',
-              ]);
-          
-              $image1Path = Storage::putFile('public/images', $request->file('image1'));
-              $image2Path = Storage::putFile('public/images', $request->file('image2'));
-              $image3Path = Storage::putFile('public/images', $request->file('image3'));
-              $image4Path = Storage::putFile('public/images', $request->file('image4'));
-              
+    // THIS IS STORE METHOD
+    public function store(Request $request)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            "make" => "required",
+            "model" => "required",
+            "year" => "required|numeric",
+            "mileage" => "required|numeric",
+            "description" => "required",
+            "fueltype" => "required",
+            "drivetype" => "required",
+            "engine" => "required",
+            "price" => "required|numeric",
+            "type" => "required",
+            "transmission" => "required",
+            "doors" => "required|numeric",
+            "image1" => "required|image",
+            "image2" => "required|image",
+            "image3" => "required|image",
+            "image4" => "required|image",
+            "features" => "nullable|array",
+            "features.*" =>
+                "nullable|in:air-conditioning,power-windows,power-locks,keyless-entry,backup-camera,navigation-system,sunroof,heated-seats,ventilated-seats,leather-seats",
+        ]);
 
+        $image1Path = Storage::putFile(
+            "public/images",
+            $request->file("image1")
+        );
+        $image2Path = Storage::putFile(
+            "public/images",
+            $request->file("image2")
+        );
+        $image3Path = Storage::putFile(
+            "public/images",
+            $request->file("image3")
+        );
+        $image4Path = Storage::putFile(
+            "public/images",
+            $request->file("image4")
+        );
 
-          
-              // Create a new car instance
-              $car = new Car();
-              $car->make = $validatedData['make'];
-              $car->model = $validatedData['model'];
-              $car->year = $validatedData['year'];
-              $car->mileage = $validatedData['mileage'];
-              $car->description = $validatedData['description'];
-              $car->fueltype = $validatedData['fueltype'];
-              $car->drivetype = $validatedData['drivetype'];
-              $car->engine = $validatedData['engine'];
-              $car->price = $validatedData['price'];
-              $car->type = $validatedData['type'];
-              $car->transmission = $validatedData['transmission'];
-              $car->doors = $validatedData['doors'];
-              $car->image1 = $image1Path;
-              $car->image2 = $image2Path;
-              $car->image3 = $image3Path;
-              $car->image4 = $image4Path;
-              $featuresString = json_encode($validatedData['features'] ?? []);
-              $car->features = $featuresString;
+        // Create a new car instance
+        $car = new Car();
+        $car->make = $validatedData["make"];
+        $car->model = $validatedData["model"];
+        $car->year = $validatedData["year"];
+        $car->mileage = $validatedData["mileage"];
+        $car->description = $validatedData["description"];
+        $car->fueltype = $validatedData["fueltype"];
+        $car->drivetype = $validatedData["drivetype"];
+        $car->engine = $validatedData["engine"];
+        $car->price = $validatedData["price"];
+        $car->type = $validatedData["type"];
+        $car->transmission = $validatedData["transmission"];
+        $car->doors = $validatedData["doors"];
+        $car->image1 = $image1Path;
+        $car->image2 = $image2Path;
+        $car->image3 = $image3Path;
+        $car->image4 = $image4Path;
+        $featuresString = json_encode($validatedData["features"] ?? []);
+        $car->features = $featuresString;
 
         // Get the creation date
-              $creationDate = $car->created_at;
-          
-              // Associate the car with the authenticated user
-              $user = Auth::user();
-              $user->cars()->save($car);
-          
-              // Redirect or perform additional actions as needed
-              return redirect()->route('cars.show', $car->id)->with('success', 'Car added successfully!');
-          }
+        $creationDate = $car->created_at;
 
-          
+        // Associate the car with the authenticated user
+        $user = Auth::user();
+        $user->cars()->save($car);
+
+        // Redirect or perform additional actions as needed
+        return redirect()
+            ->route("cars.show", $car->id)
+            ->with("success", "Car added successfully!");
+    }
+
     /**
      * Display the specified resource.
      *
@@ -133,11 +141,11 @@ class CarsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     // THIS IS SHOW METHOD
+    // THIS IS SHOW METHOD
 
     public function show(Car $car)
     {
-        return view('cars.show', compact('car'));
+        return view("cars.show", compact("car"));
     }
 
     /**
@@ -147,15 +155,11 @@ class CarsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-     // THIS IS EDIT METHOD
-
-     
+    // THIS IS EDIT METHOD
 
     public function edit(Car $car)
     {
-      
-        return view('cars.edit', compact('car'));
+        return view("cars.edit", compact("car"));
     }
 
     /**
@@ -166,72 +170,72 @@ class CarsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     // THIS IS UPDATE METHOD
+    // THIS IS UPDATE METHOD
 
+    public function update(Request $request, $id)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            "make" => "required",
+            "model" => "required",
+            "year" => "required|numeric",
+            "mileage" => "required|numeric",
+            "description" => "required",
+            "fueltype" => "required",
+            "drivetype" => "required",
+            "engine" => "required",
+            "price" => "required|numeric",
+            "type" => "required",
+            "transmission" => "required",
+            "doors" => "required|numeric",
+            "image1" => "required|image|mimes:jpeg,png,jpg,gif|max:2048",
+            "image2" => "required|image|mimes:jpeg,png,jpg,gif|max:2048",
+            "image3" => "required|image|mimes:jpeg,png,jpg,gif|max:2048",
+            "image4" => "required|image|mimes:jpeg,png,jpg,gif|max:2048",
 
-     public function update(Request $request, $id)
-     {
-         // Validate the form data
-         $validatedData = $request->validate([
-             'make' => 'required',
-             'model' => 'required',
-             'year' => 'required|numeric',
-             'mileage' => 'required|numeric',
-             'description' => 'required',
-             'fueltype' => 'required',
-             'drivetype' => 'required',
-             'engine' => 'required',
-             'price' => 'required|numeric',
-             'type' => 'required',
-             'transmission' => 'required',
-             'doors' => 'required|numeric',
-             'image1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-             'image2' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-             'image3' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-             'image4' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    
-             'features' => 'nullable|array',
-             'features.*' => 'nullable|in:air-conditioning,power-windows,power-locks,keyless-entry,backup-camera,navigation-system,sunroof,heated-seats,ventilated-seats,leather-seats',
-         ]);
-     
-         // Find the car by ID
-         $car = Car::findOrFail($id);
-     
-         // Update the car data
-         $car->make = $validatedData['make'];
-         $car->model = $validatedData['model'];
-         $car->year = $validatedData['year'];
-         $car->mileage = $validatedData['mileage'];
-         $car->description = $validatedData['description'];
-         $car->fueltype = $validatedData['fueltype'];
-         $car->drivetype = $validatedData['drivetype'];
-         $car->engine = $validatedData['engine'];
-         $car->price = $validatedData['price'];
-         $car->type = $validatedData['type'];
-         $car->transmission = $validatedData['transmission'];
-         $car->doors = $validatedData['doors'];
-     
-         // Update the features
-         $featuresString = json_encode($validatedData['features'] ?? []);
-         $car->features = $featuresString;
-     
-         $imageNames = ['image1', 'image2', 'image3', 'image4'];
+            "features" => "nullable|array",
+            "features.*" =>
+                "nullable|in:air-conditioning,power-windows,power-locks,keyless-entry,backup-camera,navigation-system,sunroof,heated-seats,ventilated-seats,leather-seats",
+        ]);
 
-         foreach ($imageNames as $imageName) {
-             if ($request->hasFile($imageName)) {
-                 // Store the new image in the public directory
-                 $imagePath = $request->file($imageName)->store('public/images');
-                 $car->$imageName = $imagePath;
-             }
-         }
-     
-         // Save the updated car data
-         $car->save();
-     
-         // Redirect to the updated car details page
-         return redirect()->route('cars.show', $car->id);
-     }
-     
+        // Find the car by ID
+        $car = Car::findOrFail($id);
+
+        // Update the car data
+        $car->make = $validatedData["make"];
+        $car->model = $validatedData["model"];
+        $car->year = $validatedData["year"];
+        $car->mileage = $validatedData["mileage"];
+        $car->description = $validatedData["description"];
+        $car->fueltype = $validatedData["fueltype"];
+        $car->drivetype = $validatedData["drivetype"];
+        $car->engine = $validatedData["engine"];
+        $car->price = $validatedData["price"];
+        $car->type = $validatedData["type"];
+        $car->transmission = $validatedData["transmission"];
+        $car->doors = $validatedData["doors"];
+
+        // Update the features
+        $featuresString = json_encode($validatedData["features"] ?? []);
+        $car->features = $featuresString;
+
+        $imageNames = ["image1", "image2", "image3", "image4"];
+
+        foreach ($imageNames as $imageName) {
+            if ($request->hasFile($imageName)) {
+                // Store the new image in the public directory
+                $imagePath = $request->file($imageName)->store("public/images");
+                $car->$imageName = $imagePath;
+            }
+        }
+
+        // Save the updated car data
+        $car->save();
+
+        // Redirect to the updated car details page
+        return redirect()->route("cars.show", $car->id);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -239,13 +243,14 @@ class CarsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     // THIS IS DELETE METHOD
+    // THIS IS DELETE METHOD
 
-
-     public function destroy(Car $car)
-     {
-         $car->delete();
-         return redirect('/profile')->with('success', 'Car deleted successfully!');
-     }
-    
+    public function destroy(Car $car)
+    {
+        $car->delete();
+        return redirect("/profile")->with(
+            "success",
+            "Car deleted successfully!"
+        );
+    }
 }
