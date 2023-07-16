@@ -10,11 +10,13 @@
     @endif
 
     <!-- Form for sorting cars -->
-    <form action="{{ route('cars.sort') }}" method="GET" class="m-4">
+    <form action="{{ route('cars.sort') }}" method="POST" class="m-4">
+        @csrf
         <div class="flex items-center">
             <label for="sort" class="mr-2 text-gray-700 text-sm font-bold">Sort By:</label>
             <div class="relative inline-block">
-                <select name="sort" id="sort" class="block appearance-none w-32 py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <select name="sort" id="sort" class="block appearance-none  py-2 px-3 border border-gray-300 rounded focus:outline-none
+                 focus:ring-blue-500 focus:border-blue-500">
                     <option value="relevance" @if(request('sort')=='relevance') selected @endif>Most Relevant</option>
                     <option value="price_low_to_high" @if(request('sort')=='price_low_to_high') selected @endif>Price: Low to High</option>
                     <option value="price_high_to_low" @if(request('sort')=='price_high_to_low') selected @endif>Price: High to Low</option>
@@ -22,7 +24,7 @@
                     <option value="year_high_to_low" @if(request('sort')=='year_high_to_low') selected @endif>Year: High to Low</option>
                 </select>
             </div>
-            <button type="submit" class="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Sort</button>
+            <button type="submit" onclick="return validateSort()" class="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Sort</button>
         </div>
     </form>
 
@@ -46,8 +48,12 @@
                     <p class="text-base car-details">
                         <strong>Fuel:</strong> {{ $car->fueltype }}
                     </p>
+                    <p class="text-base car-details">
+                    <strong>Created at:</strong> {{ $car->created_at }}
+                </p>
                 </div>
-                <a href="{{ route('cars.show', $car->id) }}" class="w-1/2 block mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm sm:text-base">View Details</a>
+                <a href="{{ route('cars.show', $car->id) }}" class="w-1/2 block mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold 
+                py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm sm:text-base">View Details</a>
             </div>
         </div>
         @endforeach

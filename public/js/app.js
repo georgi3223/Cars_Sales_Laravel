@@ -1,4 +1,5 @@
 
+//Mobile Menu
 $(document).ready(function() {
     $('#toggleButton').click(function() {
        $('#mobileMenu').slideToggle();
@@ -10,7 +11,8 @@ $(document).ready(function() {
        }
     });
  });
-//CAR SELECT MODEL 
+
+//Car Select Model 
 $(document).ready(function() {
     $('#make').on('change', function() {
         var make = $(this).val();
@@ -41,7 +43,7 @@ $(document).ready(function() {
 
 
 
-//IMAGES SLIDER 
+//Image Slider
 $(document).ready(function () {
   const mainImage = $('#currentImage');
   const carouselImages = $('.carousel-image');

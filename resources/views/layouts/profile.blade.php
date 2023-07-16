@@ -12,7 +12,7 @@
         <strong>Email:</strong> {{ Auth::user()->email }}
       </p>
       <div class="mt-4">
-        <a href="{{ route('cars.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded">Upload Ad</a>
+      <a href="{{ route('password.request') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded mt-2 block">Change Password</a>
       </div>
     </div>
   </div>
@@ -20,7 +20,8 @@
   <div class="container m-auto px-4 py-8">
     <!-- Your Ads Section -->
     <h2 class="text-lg font-semibold mb-2">Your Ads</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    <a href="{{ route('cars.create') }}" class="bg-green-500  hover:bg-green-700 text-white font-semibold px-4 py-2 rounded">Upload Ad</a>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-4">
       @foreach($cars as $car)
         <div class="bg-white shadow-md rounded-lg p-4">
           <div class="flex flex-col justify-between items-center mb-4">

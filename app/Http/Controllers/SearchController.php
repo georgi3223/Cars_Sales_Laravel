@@ -105,6 +105,6 @@ class SearchController extends Controller
 
         $cars = $query->get();
 
-        return view("cars.results", ["cars" => $cars]);
+        return view("cars.index", ["cars" => $cars]);
     }
 }

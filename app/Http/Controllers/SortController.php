@@ -31,7 +31,7 @@ class SortController extends Controller
                 break;
             default:
                 // Default sorting: Most Relevant
-                $query->orderBy("relevance_column", "desc");
+                $query->orderBy("created_at", "desc");
                 break;
         }
 

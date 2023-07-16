@@ -1,5 +1,6 @@
 @extends('layouts.app') @section('content') <div class="container mx-auto py-8">
-  <form method="GET" action="{{ route('cars.search') }}" enctype="multipart/form-data" class='bg-white shadow-md rounded p-10 w-full'>
+  <form method="POST" action="{{ route('cars.search') }}" enctype="multipart/form-data" class='bg-white shadow-md rounded p-10 w-full'>
+  @csrf
     <h2 class="text-2xl font-semibold mb-6">Search Cars</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
          <div class="mb-4">
